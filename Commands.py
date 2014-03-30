@@ -1,4 +1,4 @@
-
+# dalisayd - Commands.py used for anything command dependent
 commands = {
 	'forumLevel': ['viewActions','viewForumMembers','viewDiscussions']
 }
