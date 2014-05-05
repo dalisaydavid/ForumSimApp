@@ -15,13 +15,11 @@ def getCommand(level, cmd):
 def canGetCommand(level, cmd):
 	return cmd in commands[level]
 
-def performCommand(level, cmd):
-	args = cmd.split(' ')
+def performCommand(cmd,userName=None,level=None):
+	if cmd == "adduser":
+		db.addUser(userName,level)
 
-	if args[0] == "adduser":
-		db.addUser(args[1], args[2])
-
-	elif args[0] == "getusers":
+	elif cmd == "getusers":
 		users = db.getUsers()
 		id = 1
 

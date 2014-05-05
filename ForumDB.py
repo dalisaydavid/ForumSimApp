@@ -8,6 +8,7 @@ class ForumDB:
 		db = sql.connect(":memory:")
 		self.cur = db.cursor()
 		self.createDB() # TODO: Fix overwriting
+		print("ForumDB init...")
 
 	def createDB(self):
 		cur = self.cur
