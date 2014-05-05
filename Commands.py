@@ -32,12 +32,10 @@ def performCommand(cmd,userName=None,level=None):
 		print "Unknown command"
 
 def viewActions(level):
-	if level in 'forumLevel':
-		print getAvailableActions(level)	
+	print getAvailableActions(level)	
 		
 def getAvailableActions(level):
 	availActions = ""
-	if level in 'forumLevel':
-		for command in commands[level]:
-			availActions.append(command + "\n")
+	for command in commands[level]:
+		availActions.append(command + "\n")
 	return availActions
