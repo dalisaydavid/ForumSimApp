@@ -1,9 +1,7 @@
-import Commands
 
 def begin(userName="Anonymous User"):
 	global isActive
 	global introMessage
-
 	introMessage = "Welcome to the Bray-Dalisay Forums, %s!" % userName 
 	isActive = True
 	display(introMessage)
@@ -12,12 +10,7 @@ def begin(userName="Anonymous User"):
 
 def run():
 	while True:
-		command = getNextCommand()
-
-		if command == "quit":
-			break
-		else:
-			Commands.performCommand("admin", command)
+		getNextCommand()
 
 def getNextCommand():
 	global askNextCommandMessage 

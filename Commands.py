@@ -1,20 +1,16 @@
 # dalisayd - Commands.py used for anything command dependent
-import sys
-from ForumDB import ForumDB
-
-db = ForumDB()
-
 commands = {
 	'forumLevel': ['viewActions','viewForumMembers','viewDiscussions']
 }
 
-def getCommand(level, cmd):
-	if canGetCommand(level, cmd):
+def getCommand(level,cmd):
+	if canGetCommand(level,cmd):
 		performCommand(level, cmd)
 
-def canGetCommand(level, cmd):
+def canGetCommand(level,cmd):
 	return cmd in commands[level]
 
+<<<<<<< HEAD
 def performCommand(cmd,userName=None,level=None):
 	if cmd == "adduser":
 		db.addUser(userName,level)
@@ -30,6 +26,12 @@ def performCommand(cmd,userName=None,level=None):
 
 	else:
 		print "Unknown command"
+=======
+def performCommand(level,cmd):
+	if level in 'forumLevel':
+		if cmd in "viewActions":
+			viewActions(level)
+>>>>>>> parent of 05c1b84... Added basic database support along with a couple of commands.
 
 def viewActions(level):
 	print getAvailableActions(level)	
