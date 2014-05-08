@@ -45,3 +45,6 @@ Main Use Cases
     + Login → View Discussions → View Specific Discussion → View Posts → View Specific Post → View Comments → Delete   Specific Comment
   + Ban Forum Members
     + Login → View Members → Ban Specific Member
++ Primary Design Decisions
++ Module-based design
++ Make several python modules that perform different functions, and structurally build the application
