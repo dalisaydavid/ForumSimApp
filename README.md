@@ -7,7 +7,7 @@ Purpose: Simulates a simple forum application
 Most similar to a web forum and old BBS system
 
 Forum Structure Layout
-+ Forum --> Discussion --> Post --> Comment
++ Forum → Discussion → Post → Comment
 
 Data Dictionary
 + “Forum Administrator” (Forum Admin) - Those Forum Members that can administer the entire forum application.
