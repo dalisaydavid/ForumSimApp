@@ -1,8 +1,12 @@
-
-def begin(userName="Anonymous User"):
+import Commands
+def begin(uname,role):
 	global isActive
 	global introMessage
-	introMessage = "Welcome to the Bray-Dalisay Forums, %s!" % userName 
+	global userName
+	global forumRole
+	userName = uname
+	forumRole = role
+	introMessage = "Welcome to the superawesome forums, %s!" % userName 
 	isActive = True
 	display(introMessage)
 	run()
@@ -10,7 +14,7 @@ def begin(userName="Anonymous User"):
 
 def run():
 	while True:
-		getNextCommand()
+		Commands.performCommand(cmd=getNextCommand(),userName=userName,level='forumLevel',role=forumRole)
 
 def getNextCommand():
 	global askNextCommandMessage 
@@ -21,5 +25,3 @@ def getNextCommand():
 # Dalisayd 3/29/14 - Made this a separate method just in case we have to parse specific strings
 def display(msg):
 	print msg
-		
-	
