@@ -12,7 +12,7 @@ class ForumDB:
 
 	def createDB(self):
 		cur = self.cur
-		cur.execute("CREATE TABLE users(id int AUTO_INCREMENT, name varchar, level varchar)")
+		cur.execute("CREATE TABLE users(id int AUTO_INCREMENT, name varchar, password varchar, level int)")
 		cur.execute("CREATE TABLE topic(id int AUTO_INCREMENT, userid int, name varchar)")
 		cur.execute("CREATE TABLE posts(id int AUTO_INCREMENT, userid int, topicid int, msg varchar)")
 
