@@ -1,7 +1,15 @@
 import FSShell as shell
-import Authenticator
+import ForumDB as fdb
 
-userName = raw_input("User Name:")
-role = Authenticator.authenticate(userName)
-if role: # if role has something in it
-	shell.begin(userName,role)
+db = fdb.ForumDB()
+role = -1
+
+while role is -1:
+	username = raw_input("User Name: ")
+	password = raw_input("Password: ")
+	role = fdb.authenticate(username, password)
+
+	if role is -1:
+		print "\nInvalid username or password.\n"
+
+shell.begin(userName,role)

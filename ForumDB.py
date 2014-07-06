@@ -8,7 +8,7 @@ class ForumDB:
 		dbpw = raw_input("Enter SQL DB password: ")
 		db = sql.connect("athena.ecs.csus.edu", "acm-csus", dbpw, "test")
 		self.cur = db.cursor()
-		self.createDB() # TODO: Fix overwriting
+		#self.createDB() # TODO: Fix overwriting
 		print("ForumDB init...")
 
 	def createDB(self):

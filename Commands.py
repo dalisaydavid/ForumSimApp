@@ -6,17 +6,17 @@ adminPriv = ['addUser','getUsers']
 
 db = fdb.ForumDB()
 
-def canGetCommand(level,cmd,role):
+def canGetCommand(level, cmd, role):
 	if cmd not in commands[level] or not (cmd in adminPriv and role == 'admin'):  # if they are requested admin actions and are admin 
 		return False
 	return True
 
-def performCommand(cmd,userName=None,level=None,role='member'):
-	if not canGetCommand(level,cmd,role):
+def performCommand(cmd, userName=None, level=None, role='member', db):
+	if not canGetCommand(level, cmd, role):
 		print "Command not permitted"
 		return	
 	elif cmd == "addUser":
-		db.addUser(userName,level)
+		db.addUser(userName, level)
 
 	elif cmd == "getUsers":
 		users = db.getUsers()
