@@ -1,11 +1,12 @@
-import sqlite3 as sql
+import MySQLdb as sql
 
 class ForumDB:
 	cur = None
 
 	def __init__(self, forumName="test"):
 		#db = sql.connect(forumName + ".db")
-		db = sql.connect(":memory:")
+		dbpw = raw_input("Enter SQL DB password: ")
+		db = sql.connect("athena.ecs.csus.edu", "acm-csus", dbpw, "test")
 		self.cur = db.cursor()
 		self.createDB() # TODO: Fix overwriting
 		print("ForumDB init...")
@@ -42,3 +43,14 @@ class ForumDB:
 		cur = self.cur
 		cur.execute("SELECT msg FROM posts WHERE topicid=? ORDER BY id", topicid)
 		return cur.fetchall()
+
+	def authenticate(self, username, password):
+		cur = self.cur
+		cur.execute("SELECT password FROM users WHERE name=?", (username))
+		userpw = cursor.fetchone()
+
+		if userpw is None or userpw is not password:
+			return -1
+
+		cur.execute("SELECT level FROM users WHERE name=?", (username) 
+		return cursor.fetchone()
