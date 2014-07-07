@@ -1,10 +1,4 @@
 import ForumDB as fdb
-commands = {
-	'forumLevel': ['viewActions','viewForumMembers','viewDiscussions','addUser','getUsers']
-}
-adminPriv = ['addUser','getUsers']
-
-db = fdb.ForumDB()
 
 def canGetCommand(level, cmd, role):
 	if cmd not in commands[level] or not (cmd in adminPriv and role == 'admin'):  # if they are requested admin actions and are admin 

@@ -8,14 +8,15 @@ class ForumDB:
 		dbpw = raw_input("Enter SQL DB password: ")
 		db = sql.connect("athena.ecs.csus.edu", "acm-csus", dbpw, "test")
 		self.cur = db.cursor()
-		#self.createDB() # TODO: Fix overwriting
 		print("ForumDB init...")
 
+	'''
 	def createDB(self):
 		cur = self.cur
 		cur.execute("CREATE TABLE users(id int AUTO_INCREMENT, name varchar, password varchar, level int)")
 		cur.execute("CREATE TABLE topic(id int AUTO_INCREMENT, userid int, name varchar)")
 		cur.execute("CREATE TABLE posts(id int AUTO_INCREMENT, userid int, topicid int, msg varchar)")
+	'''
 
 	def addUser(self, username, level="user"):
 		cur = self.cur
@@ -52,5 +53,5 @@ class ForumDB:
 		if userpw is None or userpw is not password:
 			return -1
 
-		cur.execute("SELECT level FROM users WHERE name=?", (username) 
+		cur.execute("SELECT level FROM users WHERE name=?", (username))
 		return cursor.fetchone()
