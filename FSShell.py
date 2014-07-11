@@ -1,20 +1,34 @@
-import Commands
-def begin(uname,role):
+import Commands as do
+import sys
+
+def begin(uid, db):
 	global isActive
 	global introMessage
-	global userName
-	global forumRole
-	userName = uname
-	forumRole = role
-	introMessage = "Welcome to the superawesome forums, %s!" % userName 
+	global userId
+	userId = uid
+	introMessage = "Welcome to the superawesome forums!"
 	isActive = True
 	display(introMessage)
-	run()
+	run(db)
 
 
-def run():
+def run(db):
 	while True:
-		Commands.performCommand(cmd=getNextCommand(),userName=userName,level='forumLevel',role=forumRole)
+		#Commands.performCommand(cmd=getNextCommand(), userName=userName, level='forumLevel', role=forumRole, db=db)
+		cmd = getNextCommand().lower()
+		status = -1
+
+		if cmd == "viewtopics":
+			status = do.cmdViewTopics(db, userId)
+		elif cmd == "quit" or cmd == "exit":
+			sys.exit()
+
+		if status == -1:
+			print "Illegal command."
+		if status == 0:
+			print "Insufficient permissions to perform this action."
+
+
 
 def getNextCommand():
 	global askNextCommandMessage 

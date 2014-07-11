@@ -6,7 +6,7 @@ class ForumDB:
 	def __init__(self, forumName="test"):
 		#db = sql.connect(forumName + ".db")
 		dbpw = raw_input("Enter SQL DB password: ")
-		db = sql.connect("athena.ecs.csus.edu", "acm-csus", dbpw, "test")
+		db = sql.connect("host214.hostmonster.com", "dalisayd_grognak", dbpw, "dalisayd_forumsimapp")
 		self.cur = db.cursor()
 		print("ForumDB init...")
 
@@ -20,15 +20,15 @@ class ForumDB:
 
 	def addUser(self, username, level="user"):
 		cur = self.cur
-		cur.execute("INSERT INTO users (name, level) VALUES (?, ?)", (username, level))
+		cur.execute("INSERT INTO users (name, level) VALUES (%s, %s)", (username, level))
 
 	def addTopic(self, userid, name):
 		cur = self.cur
-		cur.execute("INSERT INTO topic (userid, name) VALUES (?, ?)", (userid, name))
+		cur.execute("INSERT INTO topic (userid, name) VALUES (%s, %s)", (userid, name))
 
 	def addPost(self, userid, topicid, msg):
 		cur = self.cur
-		cur.execute("INSERT INTO posts (userid, topicid, msg) VALUES (?, ?, ?)", (userid, topicid, msg))
+		cur.execute("INSERT INTO posts (userid, topicid, msg) VALUES (%s, %s, %s)", (userid, topicid, msg))
 
 	def getUsers(self):
 		cur = self.cur
@@ -42,21 +42,23 @@ class ForumDB:
 
 	def getPosts(self, topicid):
 		cur = self.cur
-		cur.execute("SELECT msg FROM posts WHERE topicid=? ORDER BY id", topicid)
+		cur.execute("SELECT msg FROM posts WHERE topicid=%s ORDER BY id", topicid)
 		return cur.fetchall()
 
 	def authenticate(self, username, password):
 		cur = self.cur
-		cur.execute("SELECT password FROM users WHERE name=?", (username))
-		userpw = cursor.fetchone()
+		cur.execute("SELECT password FROM users WHERE name=%s", username)
+		userpw = cur.fetchone()[0]
 
-		if userpw is None or userpw is not password:
+		if userpw is None or userpw != password:
 			return -1
 
-		cur.execute("SELECT id FROM users WHERE name=?", (username))
-		return cursor.fetchone()
+		cur.execute("SELECT id FROM users WHERE name=%s", username)
+		userid = cur.fetchone()[0]
+		return userid
 
-	def hasPermision(self, userid, permission):
+	def hasPermission(self, userid, permission):
 		cur = self.cur
-		cur.execute("SELECT ? FROM permissions WHERE userid=?", (permission, userid))
-		return cursor.fetchone()
+		#print "SQL: SELECT %s FROM permissions WHERE userid=%s" % (permission, userid)
+		cur.execute("SELECT %s FROM permissions WHERE userid=%s", (permission, userid))
+		return cur.fetchone()[0]

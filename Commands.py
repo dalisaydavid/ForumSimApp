@@ -1,15 +1,14 @@
-import ForumDB as fdb
-
-# TODO
-
-def cmdViewTopics(userid, index=0):
-	if fdb.hasPermission(userid, "viewTopics"):
-		topics = fdb.getTopics()
+def cmdViewTopics(db, userid, index=0):
+	if db.hasPermission(userid, "viewTopics"):
+		topics = db.getTopics()
 		topics = topics[index:index+10]
 
 		for topic in topics:
 			index += 1
-			print "%i) %s" % (index, topic)
+			print "%i) %s" % (index, topic[0])
+		return 1
+	else:
+		return 0
 
 '''
 def canGetCommand(level, cmd, role):

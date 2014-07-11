@@ -2,14 +2,15 @@ import FSShell as shell
 import ForumDB as fdb
 
 db = fdb.ForumDB()
-role = -1
+userid = -1
 
-while role is -1:
+while userid is -1:
 	username = raw_input("User Name: ")
 	password = raw_input("Password: ")
-	role = fdb.authenticate(username, password)
+	userid = db.authenticate(username, password)
 
-	if role is -1:
+	if userid is -1:
 		print "\nInvalid username or password.\n"
 
-shell.begin(userName,role)
+#print "Starting with uid: %s" % (userid)
+shell.begin(userid, db)
