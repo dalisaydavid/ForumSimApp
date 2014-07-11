@@ -1,5 +1,17 @@
 import ForumDB as fdb
 
+# TODO
+
+def cmdViewTopics(userid, index=0):
+	if fdb.hasPermission(userid, "viewTopics"):
+		topics = fdb.getTopics()
+		topics = topics[index:index+10]
+
+		for topic in topics:
+			index += 1
+			print "%i) %s" % (index, topic)
+
+'''
 def canGetCommand(level, cmd, role):
 	if cmd not in commands[level] or not (cmd in adminPriv and role == 'admin'):  # if they are requested admin actions and are admin 
 		return False
@@ -28,3 +40,4 @@ def getAvailableActions(level):
 	for command in commands[level]:
 		availActions.append(command + "\n")
 	return availActions
+'''

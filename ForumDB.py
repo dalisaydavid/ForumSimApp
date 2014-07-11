@@ -53,5 +53,10 @@ class ForumDB:
 		if userpw is None or userpw is not password:
 			return -1
 
-		cur.execute("SELECT level FROM users WHERE name=?", (username))
+		cur.execute("SELECT id FROM users WHERE name=?", (username))
+		return cursor.fetchone()
+
+	def hasPermision(self, userid, permission):
+		cur = self.cur
+		cur.execute("SELECT ? FROM permissions WHERE userid=?", (permission, userid))
 		return cursor.fetchone()
