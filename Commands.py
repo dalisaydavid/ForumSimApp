@@ -1,14 +1,26 @@
-def cmdViewTopics(db, userid, index=0):
-	if db.hasPermission(userid, "viewTopics"):
-		topics = db.getTopics()
-		topics = topics[index:index+10]
+def cmdCanPerformAction(db, userid, cmd):
+	return db.isLegalCommand(cmd) and db.hasPermission(userid,cmd) 
 
-		for topic in topics:
-			index += 1
-			print "%i) %s" % (index, topic[0])
-		return 1
+def cmdViewTopics(db, userid, index=0):
+	topics = db.getTopics()
+	topics = topics[index:index+10]
+
+	for topic in topics:
+		index += 1
+		print "%i) %s" % (index, topic[0])
+
+def cmdViewPosts(db,userid,topicId=None,index=0):
+	if topicId == None:
+		posts = db.getPosts()
 	else:
-		return 0
+		posts = db.getPosts(topicId)
+	posts = posts[index:]
+	for post in posts:
+		index =+ 1
+		print "%i) %s" % (index,post[0])
+
+def cmdAddTopic(db, userid, topicName):
+	db.addTopic(userid,topicName)
 
 '''
 def canGetCommand(level, cmd, role):

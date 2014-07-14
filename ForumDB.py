@@ -59,6 +59,19 @@ class ForumDB:
 
 	def hasPermission(self, userid, permission):
 		cur = self.cur
-		#print "SQL: SELECT %s FROM permissions WHERE userid=%s" % (permission, userid)
 		cur.execute("SELECT %s FROM permissions WHERE userid=%s", (permission, userid))
 		return cur.fetchone()[0]
+
+	def isLegalCommand(self,cmd):
+		cur = self.cur
+		cur.execute("SELECT * FROM commands WHERE name=%s", (cmd))
+		exists = 0
+		for command in cur:
+			if exists == 1:
+				break
+			exists += 1
+		print("exists={0}".format(exists))
+		if exists == 0:
+			return False	
+		else:
+			return True

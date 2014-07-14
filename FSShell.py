@@ -16,20 +16,20 @@ def run(db):
 	while True:
 		#Commands.performCommand(cmd=getNextCommand(), userName=userName, level='forumLevel', role=forumRole, db=db)
 		cmd = getNextCommand().lower()
-		status = -1
 
-		if cmd == "viewtopics":
-			status = do.cmdViewTopics(db, userId)
-		elif cmd == "quit" or cmd == "exit":
-			sys.exit()
-
-		if status == -1:
-			print "Illegal command."
-		if status == 0:
-			print "Insufficient permissions to perform this action."
-
-
-
+		if do.cmdCanPerformAction(db,userId,cmd):
+			if cmd == "viewtopics":
+				do.cmdViewTopics(db, userId)
+			elif cmd == "viewposts":
+				if do.cmdCanPerformAction(db,userId,"viewtopics"):
+					print "Select Topic:"
+					do.cmdViewTopics(db,userId)
+					topicSelection = raw_input("")
+					do.cmdViewPosts(db,userId,topicSelection)			
+			elif cmd == "quit" or cmd == "exit":
+				sys.exit()
+		else:
+			print "Invalid privileges to perform this command."
 def getNextCommand():
 	global askNextCommandMessage 
 	askNextCommandMessage = "What's your next action?\n"
