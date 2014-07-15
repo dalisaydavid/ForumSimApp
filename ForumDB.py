@@ -6,6 +6,7 @@ class ForumDB:
 	def __init__(self, forumName="test"):
 		#db = sql.connect(forumName + ".db")
 		dbpw = raw_input("Enter SQL DB password: ")
+		global db
 		db = sql.connect("host214.hostmonster.com", "dalisayd_grognak", dbpw, "dalisayd_forumsimapp")
 		self.cur = db.cursor()
 		print("ForumDB init...")
@@ -25,7 +26,7 @@ class ForumDB:
 	def addTopic(self, userid, name):
 		cur = self.cur
 		cur.execute("INSERT INTO topic (userid, name) VALUES (%s, %s)", (userid, name))
-
+		db.commit()
 	def addPost(self, userid, topicid, msg):
 		cur = self.cur
 		cur.execute("INSERT INTO posts (userid, topicid, msg) VALUES (%s, %s, %s)", (userid, topicid, msg))
@@ -70,7 +71,6 @@ class ForumDB:
 			if exists == 1:
 				break
 			exists += 1
-		print("exists={0}".format(exists))
 		if exists == 0:
 			return False	
 		else:

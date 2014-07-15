@@ -17,7 +17,7 @@ def run(db):
 		#Commands.performCommand(cmd=getNextCommand(), userName=userName, level='forumLevel', role=forumRole, db=db)
 		cmd = getNextCommand().lower()
 
-		if do.cmdCanPerformAction(db,userId,cmd):
+		if do.cmdCanPerformAction(db,userId,cmd) == 1:
 			if cmd == "viewtopics":
 				do.cmdViewTopics(db, userId)
 			elif cmd == "viewposts":
@@ -25,9 +25,15 @@ def run(db):
 					print "Select Topic:"
 					do.cmdViewTopics(db,userId)
 					topicSelection = raw_input("")
-					do.cmdViewPosts(db,userId,topicSelection)			
+					do.cmdViewPosts(db,userId,topicSelection)
+			elif cmd == "addtopic":
+				topicName = raw_input("Name of new topic: ")
+				if raw_input("Create topic %s?" % topicName).lower() == "y":
+					do.cmdAddTopic(db,userId,topicName)		
 			elif cmd == "quit" or cmd == "exit":
 				sys.exit()
+		elif do.cmdCanPerformAction(db,userId,cmd) == -1:
+			print "Command not found."
 		else:
 			print "Invalid privileges to perform this command."
 def getNextCommand():

@@ -1,5 +1,10 @@
 def cmdCanPerformAction(db, userid, cmd):
-	return db.isLegalCommand(cmd) and db.hasPermission(userid,cmd) 
+	if not db.isLegalCommand(cmd):
+		return -1
+	elif not db.hasPermission(userid,cmd):
+		return 0
+	else:
+		return 1	 
 
 def cmdViewTopics(db, userid, index=0):
 	topics = db.getTopics()
