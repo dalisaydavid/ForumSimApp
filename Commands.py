@@ -8,11 +8,10 @@ def cmdCanPerformAction(db, userid, cmd):
 
 def cmdViewTopics(db, userid, index=0):
 	topics = db.getTopics()
-	topics = topics[index:index+10]
+	topics = topics[index:]
 
 	for topic in topics:
-		index += 1
-		print "%i) %s" % (index, topic[0])
+		print "%i) %s" % (topic[0], topic[1])
 
 def cmdViewPosts(db,userid,topicId=None,index=0):
 	if topicId == None:
@@ -21,12 +20,13 @@ def cmdViewPosts(db,userid,topicId=None,index=0):
 		posts = db.getPosts(topicId)
 	posts = posts[index:]
 	for post in posts:
-		index =+ 1
-		print "%i) %s" % (index,post[0])
+		print "%i) %s" % (post[0],post[1])
 
 def cmdAddTopic(db, userid, topicName):
 	db.addTopic(userid,topicName)
 
+def cmdAddPost(db, userid, topicId, postMsg):
+	db.addPost(userid,topicId, postMsg)
 '''
 def canGetCommand(level, cmd, role):
 	if cmd not in commands[level] or not (cmd in adminPriv and role == 'admin'):  # if they are requested admin actions and are admin 

@@ -30,6 +30,11 @@ def run(db):
 				topicName = raw_input("Name of new topic: ")
 				if raw_input("Create topic %s?" % topicName).lower() == "y":
 					do.cmdAddTopic(db,userId,topicName)		
+			elif cmd == "addpost":
+				print "Select Topic:"
+				do.cmdViewTopics(db,userId)
+				topicSelection = raw_input("")
+				do.cmdAddPost(db,userId,int(topicSelection),raw_input("Post Body: "))
 			elif cmd == "quit" or cmd == "exit":
 				sys.exit()
 		elif do.cmdCanPerformAction(db,userId,cmd) == -1:

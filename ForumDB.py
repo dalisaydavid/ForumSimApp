@@ -8,6 +8,7 @@ class ForumDB:
 		dbpw = raw_input("Enter SQL DB password: ")
 		global db
 		db = sql.connect("host214.hostmonster.com", "dalisayd_grognak", dbpw, "dalisayd_forumsimapp")
+		db.autocommit(True)
 		self.cur = db.cursor()
 		print("ForumDB init...")
 
@@ -26,11 +27,9 @@ class ForumDB:
 	def addTopic(self, userid, name):
 		cur = self.cur
 		cur.execute("INSERT INTO topic (userid, name) VALUES (%s, %s)", (userid, name))
-		db.commit()
 	def addPost(self, userid, topicid, msg):
 		cur = self.cur
 		cur.execute("INSERT INTO posts (userid, topicid, msg) VALUES (%s, %s, %s)", (userid, topicid, msg))
-
 	def getUsers(self):
 		cur = self.cur
 		cur.execute("SELECT name FROM users ORDER BY id")
@@ -38,12 +37,12 @@ class ForumDB:
 
 	def getTopics(self):
 		cur = self.cur
-		cur.execute("SELECT name FROM topic ORDER BY id")
+		cur.execute("SELECT id,name FROM topic ORDER BY id")
 		return cur.fetchall()
 
 	def getPosts(self, topicid):
 		cur = self.cur
-		cur.execute("SELECT msg FROM posts WHERE topicid=%s ORDER BY id", topicid)
+		cur.execute("SELECT id,msg FROM posts WHERE topicid=%s ORDER BY id", topicid)
 		return cur.fetchall()
 
 	def authenticate(self, username, password):
