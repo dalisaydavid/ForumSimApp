@@ -18,7 +18,9 @@ def run(db):
 		cmd = getNextCommand().lower()
 
 		if do.cmdCanPerformAction(db,userId,cmd) == 1:
-			if cmd == "viewtopics":
+			if cmd == "help":
+				do.getCommands(db,userId)
+			elif cmd == "viewtopics":
 				do.cmdViewTopics(db, userId)
 			elif cmd == "viewposts":
 				if do.cmdCanPerformAction(db,userId,"viewtopics"):
@@ -26,6 +28,8 @@ def run(db):
 					do.cmdViewTopics(db,userId)
 					topicSelection = raw_input("")
 					do.cmdViewPosts(db,userId,topicSelection)
+			elif cmd == "viewusers":
+				do.cmdViewUsers(db,userId)
 			elif cmd == "addtopic":
 				topicName = raw_input("Name of new topic: ")
 				if raw_input("Create topic %s?" % topicName).lower() == "y":
@@ -35,6 +39,24 @@ def run(db):
 				do.cmdViewTopics(db,userId)
 				topicSelection = raw_input("")
 				do.cmdAddPost(db,userId,int(topicSelection),raw_input("Post Body: "))
+			elif cmd == "deletetopic":
+				print "Select Topic to remove:"
+				do.cmdViewTopics(db,userId)
+				topicSelection = raw_input("")
+				do.cmdDeleteTopic(db,userId,int(topicSelection))
+			elif cmd == "deletepost":
+				print "Select Topic:"
+				do.cmdViewTopics(db,userId)
+				topicSelection = raw_input("")
+				print "Select Post to remove:"
+				do.cmdViewPosts(db,userId,topicSelection)
+				postSelection = raw_input("")
+				do.cmdDeletePost(db, userId, postSelection)
+			elif cmd == "deleteuser":
+				print "Select User:"
+				do.cmdViewUsers(db,userId)
+				userSelection = raw_input("")
+				do.cmdDeleteUser(db,userSelection)
 			elif cmd == "quit" or cmd == "exit":
 				sys.exit()
 		elif do.cmdCanPerformAction(db,userId,cmd) == -1:
