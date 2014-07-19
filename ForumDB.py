@@ -20,6 +20,19 @@ class ForumDB:
 		cur.execute("CREATE TABLE posts(id int AUTO_INCREMENT, userid int, topicid int, msg varchar)")
 	'''
 
+	def getCommands(self, userid):
+		cur = self.cur
+		cur.execute("SELECT * FROM commands")
+		allCommands = cur.fetchall()
+		cmdsAvail = []
+		for cmd in allCommands:
+			cur = db.cursor()
+			cur.execute("SELECT %s FROM permissions WHERE userid=%s" % (cmd[1],userid))
+			if cur.fetchone()[0] == 1:
+				cmdsAvail.append(cmd)
+
+		return cmdsAvail
+
 	def addUser(self, username, level="user"):
 		cur = self.cur
 		cur.execute("INSERT INTO users (name, level) VALUES (%s, %s)", (username, level))
@@ -32,7 +45,7 @@ class ForumDB:
 		cur.execute("INSERT INTO posts (userid, topicid, msg) VALUES (%s, %s, %s)", (userid, topicid, msg))
 	def getUsers(self):
 		cur = self.cur
-		cur.execute("SELECT name FROM users ORDER BY id")
+		cur.execute("SELECT id,name FROM users ORDER BY id")
 		return cur.fetchall()
 
 	def getTopics(self):
@@ -45,6 +58,21 @@ class ForumDB:
 		cur.execute("SELECT id,msg FROM posts WHERE topicid=%s ORDER BY id", topicid)
 		return cur.fetchall()
 
+	def delTopic(self, topicid):
+		cur = self.cur
+		cur.execute("DELETE FROM topic WHERE id=%s", topicid)
+		print "Topic Deleted."
+
+	def delPost(self, postid):
+		cur = self.cur
+		cur.execute("DELETE FROM posts WHERE id=%s", postid)
+		print "Post Deleted."
+
+	def delUser(self, userid):
+		cur = self.cur
+		cur.execute("DELETE FROM users WHERE id=%s", userid)
+		print "User Deleted."
+	
 	def authenticate(self, username, password):
 		cur = self.cur
 		cur.execute("SELECT password FROM users WHERE name=%s", username)
@@ -59,8 +87,9 @@ class ForumDB:
 
 	def hasPermission(self, userid, permission):
 		cur = self.cur
-		cur.execute("SELECT %s FROM permissions WHERE userid=%s", (permission, userid))
-		return cur.fetchone()[0]
+		cur.execute("SELECT %s FROM permissions WHERE userid=%s" % (permission, userid))
+		fetch = cur.fetchone()[0]
+		return fetch
 
 	def isLegalCommand(self,cmd):
 		cur = self.cur

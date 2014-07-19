@@ -1,1 +1,9 @@
+<<<<<<< HEAD
 *.pyc
+=======
+testFile.py
+Commands.pyc
+FSShell.pyc
+ForumDB.pyc
+ForumSim.pyc
+>>>>>>> origin/master
