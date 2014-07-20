@@ -27,7 +27,13 @@ def cmdViewUsers(db, userid, index=0):
 	print "Users: "
 	for user in users:
 		print "{0}) {1}".format(user[0],user[1])
-	
+
+def cmdAddUser(db, userName, userPswd):
+	db.addUser(userName,userPswd)
+	id = db.getUsersByUserPass(userName, userPswd)
+	return id			
+def cmdModifyPermissions(db, userid, permissions):
+	db.modifyPermissions(userid, permissions)	
 
 def cmdAddTopic(db, userid, topicName):
 	db.addTopic(userid,topicName)

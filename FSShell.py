@@ -30,6 +30,13 @@ def run(db):
 					do.cmdViewPosts(db,userId,topicSelection)
 			elif cmd == "viewusers":
 				do.cmdViewUsers(db,userId)
+			elif cmd == "adduser":
+				newUserName = raw_input("New Username:")
+				newUserPswd = raw_input("New User password:")
+				newUserId = do.cmdAddUser(db,newUserName,newUserPswd)
+				newPermisIn = raw_input("What permissions should {0} have? (separate my commas)".format(newUserName))
+				newPermisList = newPermisIn.split(",")
+				do.cmdModifyPermissions(db,newUserId,newPermisList)
 			elif cmd == "addtopic":
 				topicName = raw_input("Name of new topic: ")
 				if raw_input("Create topic %s?" % topicName).lower() == "y":

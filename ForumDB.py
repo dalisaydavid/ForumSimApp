@@ -33,10 +33,9 @@ class ForumDB:
 
 		return cmdsAvail
 
-	def addUser(self, username, level="user"):
+	def addUser(self, username,pswd):
 		cur = self.cur
-		cur.execute("INSERT INTO users (name, level) VALUES (%s, %s)", (username, level))
-
+		cur.execute("INSERT INTO users (id,name,password) VALUES (%s, %s, %s)", (None, username,pswd))
 	def addTopic(self, userid, name):
 		cur = self.cur
 		cur.execute("INSERT INTO topic (userid, name) VALUES (%s, %s)", (userid, name))
@@ -47,7 +46,10 @@ class ForumDB:
 		cur = self.cur
 		cur.execute("SELECT id,name FROM users ORDER BY id")
 		return cur.fetchall()
-
+	def getUsersByUserPass(self, username, pswd):
+		cur = self.cur
+		cur.execute("SELECT id FROM users where name=%s AND password=%s", (username,pswd))
+		return cur.fetchone()
 	def getTopics(self):
 		cur = self.cur
 		cur.execute("SELECT id,name FROM topic ORDER BY id")
@@ -91,6 +93,18 @@ class ForumDB:
 		fetch = cur.fetchone()[0]
 		return fetch
 
+	def modifyPermissions(self, userid, permissions):
+		cur = self.cur
+		execute = "insert into permissions (userid"
+		for p in permissions:
+			execute += ", %s" % str(p)
+		execute += ") values(%s" % str(userid[0])
+		for i in range(len(permissions)):
+			execute += ",1"
+		execute += ")"
+		print execute
+		cur.execute(execute)	
+	
 	def isLegalCommand(self,cmd):
 		cur = self.cur
 		cur.execute("SELECT * FROM commands WHERE name=%s", (cmd))
