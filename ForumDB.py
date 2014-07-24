@@ -73,8 +73,11 @@ class ForumDB:
 	
 	def authenticate(self, username, password):
 		cur = self.cur
-		cur.execute("SELECT password FROM users WHERE name=%s", username)
-		userpw = cur.fetchone()[0]
+		try:
+			cur.execute("SELECT password FROM users WHERE name=%s", username)
+			userpw = cur.fetchone()[0]
+		except:
+			return -1
 
 		if userpw is None or userpw != password:
 			return -1
