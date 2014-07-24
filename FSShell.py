@@ -16,7 +16,8 @@ def run(db):
 	while True:
 		#Commands.performCommand(cmd=getNextCommand(), userName=userName, level='forumLevel', role=forumRole, db=db)
 		cmd = getNextCommand().lower()
-
+		if cmd == "quit" or cmd == "exit":
+			sys.exit()
 		if do.cmdCanPerformAction(db,userId,cmd) == 1:
 			if cmd == "help":
 				do.getCommands(db,userId)
@@ -64,8 +65,6 @@ def run(db):
 				do.cmdViewUsers(db,userId)
 				userSelection = raw_input("")
 				do.cmdDeleteUser(db,userSelection)
-			elif cmd == "quit" or cmd == "exit":
-				sys.exit()
 		elif do.cmdCanPerformAction(db,userId,cmd) == -1:
 			print "Command not found."
 		else:

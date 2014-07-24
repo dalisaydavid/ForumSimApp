@@ -12,14 +12,6 @@ class ForumDB:
 		self.cur = db.cursor()
 		print("ForumDB init...")
 
-	'''
-	def createDB(self):
-		cur = self.cur
-		cur.execute("CREATE TABLE users(id int AUTO_INCREMENT, name varchar, password varchar, level int)")
-		cur.execute("CREATE TABLE topic(id int AUTO_INCREMENT, userid int, name varchar)")
-		cur.execute("CREATE TABLE posts(id int AUTO_INCREMENT, userid int, topicid int, msg varchar)")
-	'''
-
 	def getCommands(self, userid):
 		cur = self.cur
 		cur.execute("SELECT * FROM commands")
@@ -30,26 +22,30 @@ class ForumDB:
 			cur.execute("SELECT %s FROM permissions WHERE userid=%s" % (cmd[1],userid))
 			if cur.fetchone()[0] == 1:
 				cmdsAvail.append(cmd)
-
 		return cmdsAvail
 
 	def addUser(self, username,pswd):
 		cur = self.cur
 		cur.execute("INSERT INTO users (id,name,password) VALUES (%s, %s, %s)", (None, username,pswd))
+
 	def addTopic(self, userid, name):
 		cur = self.cur
 		cur.execute("INSERT INTO topic (userid, name) VALUES (%s, %s)", (userid, name))
+
 	def addPost(self, userid, topicid, msg):
 		cur = self.cur
 		cur.execute("INSERT INTO posts (userid, topicid, msg) VALUES (%s, %s, %s)", (userid, topicid, msg))
+
 	def getUsers(self):
 		cur = self.cur
 		cur.execute("SELECT id,name FROM users ORDER BY id")
 		return cur.fetchall()
+
 	def getUsersByUserPass(self, username, pswd):
 		cur = self.cur
 		cur.execute("SELECT id FROM users where name=%s AND password=%s", (username,pswd))
 		return cur.fetchone()
+
 	def getTopics(self):
 		cur = self.cur
 		cur.execute("SELECT id,name FROM topic ORDER BY id")
