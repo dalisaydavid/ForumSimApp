@@ -104,15 +104,7 @@ class ForumDB:
 		print execute
 		cur.execute(execute)	
 	
-	def isLegalCommand(self,cmd):
-		cur = self.cur
-		cur.execute("SELECT * FROM commands WHERE name=%s", (cmd))
-		exists = 0
-		for command in cur:
-			if exists == 1:
-				break
-			exists += 1
-		if exists == 0:
-			return False	
-		else:
-			return True
+        def isLegalCommand(self, cmd):
+            cur = self.cur
+            cur.execute("SELECT * FROM commands WHERE name=%s", (cmd))
+            return (cur.rowcount > 0)
