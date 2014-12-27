@@ -6,4 +6,5 @@ Commands.pyc
 FSShell.pyc
 ForumDB.pyc
 ForumSim.pyc
+*.swp
 >>>>>>> origin/master
